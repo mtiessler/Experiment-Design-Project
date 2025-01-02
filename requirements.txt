@@ -1,0 +1,9 @@
+numpy>=*
+pandas>=*
+torch>=*
+scikit-learn>=*
+sklearn-pandas>=*
+pycox>=*
+torchtuples>=*
+matplotlib>=*
+argparse>=*
