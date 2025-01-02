@@ -2,7 +2,7 @@
 import logging
 import argparse
 import pandas as pd
-from pre.coxDataLoader import *
+from ..pre_process.coxDataLoader import *
 import numpy as np
 import os
 
