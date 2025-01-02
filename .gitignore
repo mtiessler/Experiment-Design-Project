@@ -2,3 +2,5 @@
 /results/
 /data/*.xlsx
 /data/*.csv
+
+.idea
