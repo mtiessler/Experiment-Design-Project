@@ -16,7 +16,7 @@ import torch
 # from models.developing import *
 from utils import utils
 from model import *
-from pre import *
+from src.GRV.pre_process import *
 
 
 def parse_global_args(parser):
