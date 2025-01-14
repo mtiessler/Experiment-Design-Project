@@ -93,10 +93,10 @@ def generate_item_hour_log(base_path, dataset_folder):
     item_hour_log = compute_play_rate_and_new_pctr(item_hour_log)
 
     # Save to CSV in the same folder
-    output_file = os.path.join(folder_path, "itemHourLog.csv")
+    output_file = os.path.join(folder_path, "itemHour_log.csv")
     os.makedirs(folder_path, exist_ok=True)
     item_hour_log.to_csv(output_file, index=False)
-    print(f"Saved itemHourLog.csv to {output_file}")
+    print(f"Saved itemHour_log.csv to {output_file}")
 
 
 if __name__ == "__main__":
