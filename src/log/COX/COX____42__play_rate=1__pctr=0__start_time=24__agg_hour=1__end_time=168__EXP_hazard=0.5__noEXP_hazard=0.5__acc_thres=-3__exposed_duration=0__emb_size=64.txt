@@ -1,0 +1,34 @@
+INFO:root:Namespace(model_name='COX')
+INFO:root:--------------------------------------------- BEGIN: 2025-01-14 18:02:33 ---------------------------------------------
+INFO:root:
+===========================================
+ Arguments          | Values               
+===========================================
+ EXP_hazard         | 0.5                 
+ acc_thres          | -3                  
+ agg_hour           | 1                   
+ analysis           | 0                   
+ dataset            |                     
+ emb_size           | 64                  
+ end_time           | 168                 
+ exposed_duration   | 0                   
+ gpu                | 0                   
+ label_path         |                     
+ load               | 0                   
+ noEXP_hazard       | 0.5                 
+ pctr               | 0                   
+ play_rate          | 1                   
+ prediction_dataset |                     
+ prediction_path    | ../prediction/COX...
+ prepareLabel       | 0                   
+ random_seed        | 42                  
+ start_time         | 24                  
+ train              | 1                   
+===========================================
+INFO:root:GPU available: False
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['click_rate']: 0.001 secs
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['play_rate']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['click_rate']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['play_rate']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['click_rate']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['play_rate']: 0.0 secs
