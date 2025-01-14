@@ -1,5 +1,5 @@
 from model.COX import COX
-from pre_process.coxDataLoader import coxDataLoader
+from pre_process.coxDataLoaderAux import coxDataLoader
 import logging
 import os
 import pandas as pd
@@ -33,9 +33,9 @@ def main():
     base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
     dataset_path = os.path.join(base_path, 'data', 'MIND')
     dataset_name = 'train'
-    raw_data_path = os.path.join(dataset_path, dataset_name, 'itemHourLog.csv')
+    raw_data_path = os.path.join(dataset_path, dataset_name, 'itemHour_log.csv')
     preprocessed_data_path = os.path.join(dataset_path, dataset_name,
-                                          'itemHourLog_preprocessed.csv')
+                                          'itemHour_log.csv')
     model_path = os.path.join(base_path, 'models', 'cox_model.pt')
     prediction_path = os.path.join(base_path, 'predictions', 'cox.csv')
     start_time = 24
@@ -62,7 +62,7 @@ def main():
     args.pctr = pctr
 
     corpus = coxDataLoader(args)
-    corpus.coxData = pd.read_csv(preprocessed_data_path)  # Use preprocessed data
+    corpus.coxData = pd.read_csv(preprocessed_data_path)
     corpus.preprocess(args)
 
     # Train Cox model
