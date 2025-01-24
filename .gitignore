@@ -1,6 +1,5 @@
 !.gitignore
 /results/
-/data/*.xlsx
-/data/*.csv
-
-.idea
+data/MIND/train
+data/MIND/test
+data/MIND/validation
