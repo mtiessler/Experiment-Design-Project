@@ -1,0 +1,17 @@
+key,value
+path,../../data/MIND/preprocessed
+dataset,
+train_file,train.csv
+val_file,val.csv
+test_file,test.csv
+play_rate,1
+pctr,1
+start_time,24
+gpu,0
+random_seed,1234
+log_file,./logs/cox_model.log
+verbose,20
+load,0
+train,1
+analysis,0
+model_name,COX
