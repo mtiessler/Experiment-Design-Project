@@ -6,3 +6,4 @@ data/MIND/validation
 /.idea/aws.xml
 /.idea/other.xml
 /.idea/webResources.xml
+*.zip
