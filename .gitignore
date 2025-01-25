@@ -7,3 +7,6 @@ data/MIND/validation
 /.idea/other.xml
 /.idea/webResources.xml
 *.zip
+*.tsv
+
+data/MIND_large/**/*.tsv
