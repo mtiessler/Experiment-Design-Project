@@ -458,3 +458,35 @@ INFO:root:Concordance index: 0.4960496025422134
 INFO:root:Integrated Brier Score: 0.15119756951680435
 INFO:root:Integrated Negative Log-Likelihood: 0.5152630138630253
 INFO:root:--------------------------------------------- END: 2025-01-24 14:14:48 ---------------------------------------------
+INFO:root:Loaded Configuration: {'path': '../../data/MIND/preprocessed', 'dataset': '', 'train_file': 'train.csv', 'val_file': 'val.csv', 'test_file': 'test.csv', 'play_rate': '1', 'pctr': '1', 'start_time': '24', 'gpu': '0', 'random_seed': '1234', 'log_file': './logs/cox_model.log', 'verbose': '20', 'load': '0', 'train': '1', 'analysis': '0', 'model_name': 'COX', 'model_path': 'model/COX/COX____1234__train_file=train.csv__val_file=val.csv__test_file=test.csv__play_rate=1__pctr=1__start_time=24.pt', 'prediction_path': '../prediction/COX/COX____1234__train_file=train.csv__val_file=val.csv__test_file=test.csv__play_rate=1__pctr=1__start_time=24'}
+INFO:root:GPU available: False
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['clicks']: 0.002 secs
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['click_rate']: 0.001 secs
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['photo_time']: 0.001 secs
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['play_time']: 0.001001 secs
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['play_rate']: 0.000999 secs
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['new_pctr']: 0.001006 secs
+INFO:sklearn_pandas:[FIT_TRANSFORM] ['died']: 0.000995 secs
+INFO:sklearn_pandas:[TRANSFORM] ['clicks']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['click_rate']: 0.001001 secs
+INFO:sklearn_pandas:[TRANSFORM] ['photo_time']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['play_time']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['play_rate']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['new_pctr']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['died']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['clicks']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['click_rate']: 0.001 secs
+INFO:sklearn_pandas:[TRANSFORM] ['photo_time']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['play_time']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['play_rate']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['new_pctr']: 0.0 secs
+INFO:sklearn_pandas:[TRANSFORM] ['died']: 0.000999 secs
+INFO:root:<src.GRV.model.COX.COX object at 0x000001EB84126700>
+INFO:root:Model defined successfully.
+INFO:root:[train] Model partial log-likelihood: -7.068611145019531
+INFO:root:Model saved at C:\Users\Max\Experiment-Design-Project\src\GRV\model/COX/COX____1234__train_file=train.csv__val_file=val.csv__test_file=test.csv__play_rate=1__pctr=1__start_time=24.pt
+INFO:root:Prediction results saved at C:\Users\Max\Experiment-Design-Project\src\GRV\../prediction/COX/COX____1234__train_file=train.csv__val_file=val.csv__test_file=test.csv__play_rate=1__pctr=1__start_time=24.csv
+INFO:root:Concordance index: 0.4960496025422134
+INFO:root:Integrated Brier Score: 0.15119756951680435
+INFO:root:Integrated Negative Log-Likelihood: 0.5152630138630253
+INFO:root:--------------------------------------------- END: 2025-01-24 14:32:48 ---------------------------------------------
