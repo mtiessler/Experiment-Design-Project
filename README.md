@@ -25,7 +25,14 @@ Currently under constructions.
 - plots have been improved
 
 ## ReChorus
-- Added path to data folder
+- Added path to data folde
+- Implemented chunk-based file processing to reduce memory overhead during `behaviors.tsv` file processing.
+- Added early sampling of data during chunk processing to limit the dataset size and improve processing speed.
+- Reduced interaction frequency threshold (`MIN_INTERACTIONS=2`) for user and item filtering to make the dataset more manageable.
+- Optimized negative sample generation using a vectorized approach for faster performance.
+- Replaced `.csv` file outputs with `.parquet` for faster read/write operations and reduced disk usage.
+- Added progress tracking using `tqdm` for better visibility of file processing progress.
+- Reduced training set timeline to focus on fewer days, minimizing dataset size.
 
 
 # Step-by-Step Reproduction Procedure
