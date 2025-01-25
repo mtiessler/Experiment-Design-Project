@@ -8,3 +8,4 @@ data/MIND/validation
 /.idea/webResources.xml
 *.tsv
 *.zip
+*.vec
