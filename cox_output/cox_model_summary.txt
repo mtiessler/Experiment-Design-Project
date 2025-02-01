@@ -1,0 +1,17 @@
+                      coef  exp(coef)  se(coef)  coef lower 95%  \
+covariate                                                         
+sum_exposure_obs -0.011847   0.988223  0.001335       -0.014465   
+item_id          -0.000048   0.999952  0.000015       -0.000078   
+T_i0             -0.023784   0.976497  0.001106       -0.025952   
+
+                  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  \
+covariate                                                                    
+sum_exposure_obs       -0.009230             0.985640             0.990813   
+item_id                -0.000019             0.999922             0.999981   
+T_i0                   -0.021616             0.974382             0.978616   
+
+                  cmp to          z              p    -log2(p)  
+covariate                                                       
+sum_exposure_obs     0.0  -8.871875   7.192465e-19   60.270148  
+item_id              0.0  -3.245796   1.171226e-03    9.737765  
+T_i0                 0.0 -21.503187  1.453548e-102  338.297087  
