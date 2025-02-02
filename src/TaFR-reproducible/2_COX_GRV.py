@@ -145,7 +145,7 @@ def train_and_generate_grv_with_vitality(
 
 
 if __name__ == "__main__":
-    item_hour_log_csv = "./output/ItemHourLog.csv"
+    item_hour_log_csv = "./item_hour_log/ItemHourLog.csv"
     train_and_generate_grv_with_vitality(
         item_hour_log_csv=item_hour_log_csv,
         output_dir="./cox_output",

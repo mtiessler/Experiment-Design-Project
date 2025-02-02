@@ -125,8 +125,8 @@ def compute_vitality_for_item_hour_log(
     print(f"[INFO] Wrote vitality-based itemHourLog to {output_csv}.")
 
 if __name__=="__main__":
-    DATA_PATH = ""
-    OUTPUT_PATH = "./output"
+    DATA_PATH = "./ReChorus_MIND_dataset"
+    OUTPUT_PATH = "./item_hour_log"
 
     # Step A1
     generate_basic_item_hour_log(DATA_PATH, OUTPUT_PATH, datasets=["train","val","test"])
