@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+from lifelines import CoxPHFitter
 
 
 def train_and_generate_grv_with_vitality(
@@ -52,7 +53,7 @@ def train_and_generate_grv_with_vitality(
 
         # We'll look hour by hour in [obs_end, pred_end) to see if cummulativeVital < beta_d
         # Actually we must compute cumulative vitality from T_i0 up to each hour offset.
-        # So let's build an array from T_i0 => pred_end-1
+        # array from T_i0 => pred_end-1
         full_offsets = np.arange(T_i0, pred_end)
         # We'll map them to vitality or 0 if no row
         group_indexed = group.set_index("hour_offset")
@@ -91,7 +92,6 @@ def train_and_generate_grv_with_vitality(
         return
 
     # Fit Cox
-    from lifelines import CoxPHFitter
     cph = CoxPHFitter()
     try:
         cph.fit(
