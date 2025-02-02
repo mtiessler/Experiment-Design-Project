@@ -1,135 +1,132 @@
-# Timeliness-aware Fair Recommendation (TaFR)
+# Reproduction of the Timeliness-aware Fair Recommendation (TaFR)
 
-This is the Repo for the paper:
+This repository accompanies the paper:
 
-Jiayin Wang, Weizhi Ma, Chumeng Jiang, Min Zhang, Yuan Zhang, Biao Li and Peng Jiang, 2023. Measuring Item Global Residual Value for Fair Recommendation. In SIGIR'23.
-
-Currently under constructions.
-**Disclaimer**: The paper evaluates its methods on specific datasets (MIND, Kuai) and metrics like Hit Rate (HR@k), NDCG@k, and coverage metrics. The code doesn't include any specific evaluation metrics or datasets that replicate this analysis.
-
-## Adds to improve reproducibility
-- Added a `requirements.txt`
-- generated .csv config files
-- edited main.py file for preprocessing the config values in the .csv
-- edited main.py to avoid using eval() for security reasons
-- reestructured the filesystem to fix references (removed __init__.py files)
-- fixed reference unknonw "pre" references to pre_process in main.py, label.py, coxDataLoader.py 
-- removed unused imports
-- coxDataLoader.py now uses to a .csv config file instead of args
-- added itemHourLog generator script (uses MIND dataset for generating the itemhourlog.csv)
-- fixed gitignore
-- Now the itemHourLog is already splitted by training test val, so the coxDataLoader does not do anymore its task -> simplified
-- defined model in COX.py has been uncommented and fixed to reintegrate with the main pipeline
-- COX.py now uses the config file and has better readability
-- cox data loader now generates cox.csv from the files 
-- plots have been improved
-
-## ReChorus
-- Added path to data folde
-- Implemented chunk-based file processing to reduce memory overhead during `behaviors.tsv` file processing.
-- Added early sampling of data during chunk processing to limit the dataset size and improve processing speed.
-- Reduced interaction frequency threshold (`MIN_INTERACTIONS=2`) for user and item filtering to make the dataset more manageable.
-- Optimized negative sample generation using a vectorized approach for faster performance.
-- Replaced `.csv` file outputs with `.parquet` for faster read/write operations and reduced disk usage.
-- Added progress tracking using `tqdm` for better visibility of file processing progress.
-- Reduced training set timeline to focus on fewer days, minimizing dataset size.
-
-
-# Step-by-Step Reproduction Procedure
-
-## 1. Dataset Preparation
-
-### Datasets:
-- **MIND Dataset**: Download from the [MIND dataset site](https://msnews.github.io/).
-- **Kuai Dataset**: The paper mentions this will be publicly available. If not accessible, use an alternative short-video dataset with similar characteristics.
-
-### Preprocessing:
-- Apply a **10-core filter** (only keep users and items with at least 10 interactions).
-- Split data into:
-  - **Training Set**: First 3 days of interactions.
-  - **Validation & Test Sets**: Last 2 days of interactions.
+**Jiayin Wang, Weizhi Ma, Chumeng Jiang, Min Zhang, Yuan Zhang, Biao Li, and Peng Jiang.** 2023. _Measuring Item Global Residual Value for Fair Recommendation_. In SIGIR '23.
 
 ---
 
-## 2. Global Residual Value (GRV) Module
+## 1. Repository Overview
 
-### Input Features:
-- Collect user feedback for items during an **observation period (T_obs)**:
-  - Metrics like **CTR**, watch ratio, or similar user feedback.
-- Define a **prediction period (T_pred)** to estimate item timeliness (GRV).
+```
+Experiment-Design-Project/
+├── data/
+│   ├── MIND_large/          # ReChorus-based MIND data (train/dev/test/preprocessed)
+│   └── ...                  # Output logs or additional data
+├── output/                  # Saved outputs from scripts (e.g., cox, model predictions)
+├── src/
+│   ├── GRV/                 # Refactored code (original author’s) for GRV generation & Cox modeling
+│   │   ├── model/
+│   │   ├── pre_process/
+│   │   ├── predictions/
+│   │   ├── utils/
+│   │   ├── config.csv
+│   │   └── main.py
+│   ├── ReChorus/            # The ReChorus library code w/ MIND dataset generator & preprocessing
+│   │   ├── data/
+│   │   ├── docs/
+│   │   ├── src/
+│   │   ├── requirements.txt
+│   │   └── ...
+│   └── ...
+└── TaFR-reproducible/
+    ├── cox_output/
+    ├── ReChorus_MIND_dataset/
+    ├── 1_item_hour_log_from_ReChorus.py
+    ├── 2_COX_GRV.py
+    └── ...
+```
 
-### Modeling GRV:
-- Use **survival analysis (Cox proportional hazards model)** to model item timeliness. Key steps:
-  - Define **deactivation labels** based on item vitality scores.
-  - Train the GRV module to predict item-level timeliness for the prediction period.
-- **Output**: A **GRV vector** for each item over the prediction period.
+### Directory Details:
+- **GRV/**: Refactored code for generating the Cox model and GRV values.
+- **ReChorus/**: The ReChorus framework, including the MIND dataset loader & preprocessing pipeline.
+- **TaFR-reproducible/**: Integrated scripts for the full TaFR pipeline.
+- **data/**: Contains MIND data (train/val/test) and other data necessary for GRV original code.
+
+> **Note:** The final experiments used both the MIND and Kuai datasets, evaluated on HR@k, NDCG@k, and coverage metrics. 
+---
+
+## 2. Additions to Improve Reproducibility
+
+- Added a `requirements.txt` to track Python dependencies.
+- Generated `.csv` config files for flexible parameter specification.
+- Edited `main.py` to parse config values from CSV (removed `eval()` calls for security).
+- Restructured the file system and fixed import references.
+- Fixed unknown module references in `main.py`, `label.py`, and `coxDataLoader.py`.
+- Removed unused imports across multiple scripts.
+- Updated `coxDataLoader.py` to read from config CSV instead of command-line args.
+- Added an itemHourLog generator script to produce `itemHourLog.csv`.
+- Split `itemHourLog.csv` into train/val/test sets.
+- Re-enabled and improved the model definition in `COX.py`.
+- Enhanced plotting for survival analysis and calibration curves.
 
 ---
 
-## 3. Generate Recommendation Datasets
+## 3. ReChorus Modifications
 
-- Create datasets for **CTR prediction** and **Top-K recommendation** tasks.
-- Include **GRV values** as features for items in interaction files (`train.csv`, `dev.csv`, `test.csv`).
-- Ensure alignment between GRV predictions and item metadata.
-
----
-
-## 4. Backbone Recommendation Models
-
-### Train Baseline Models:
-- Use standard recommendation algorithms as backbones:
-  - **NeuMF** (Collaborative Filtering).
-  - **GRU4Rec** (Sequential Recommendation).
-  - **TiSASRec** (Time-sensitive Sequential Recommendation).
-- Evaluate recommendation performance **without GRV** (baseline).
-
-### Integrate GRV into Backbones:
-- Use the formula:
-
-  \[
-  G_r(u,t)(I) = (1 - \gamma) \cdot BBM_r(u,t)(I) + \gamma \cdot GRV_i(t)
-  \]
-
-  Where:
-  - \( BBM_r \): Backbone model prediction.
-  - \( GRV_i \): GRV prediction for item \( i \).
-  - \( \gamma \): Weight parameter for GRV integration.
-
-- Train and evaluate each backbone model **with GRV**.
+- Added path references to data in ReChorus scripts.
+- Implemented chunk-based file processing to handle large `behaviors.tsv` data.
+- Early sampling of data during chunk processing to limit dataset size for faster development.
+- Lowered interaction frequency threshold (e.g., `MIN_INTERACTIONS=2`) to reduce dataset size.
+- Vectorized negative sampling for performance improvements.
+- Added progress tracking with `tqdm`.
+- Reduced the training timeline to fewer days for a smaller dataset.
 
 ---
 
-## 5. Experimental Settings
+## 4. Step-by-Step Reproduction Procedure
 
-### Hyperparameters:
-- \( T_{obs} \): Observation period (e.g., 12 hours for MIND, 24 hours for Kuai).
-- \( T_{pred} \): Prediction period (e.g., 7 days).
-- \( \gamma \): GRV weight (e.g., 0.1–0.3 based on grid search).
+Execute the file `reproduction.ipynb` for a full end-to-end reproduction of the experiment.
 
-### Evaluation Metrics:
-- **Accuracy**: HR@K, NDCG@K.
-- **Fairness**: Coverage of new items (N_Cov@K), overall item coverage (Cov@K).
+### 1. **Dataset Preparation**
 
-### Experiments:
-1. Train baseline models **without GRV**.
-2. Train models **with GRV integration**.
-3. Compare results to measure improvements in **accuracy** and **fairness**.
+- **MIND Dataset**: ReChorus generated one. You can find the already splitted sets in the folder `ReChorus_MIND_dataset` 
+- **Filtering**: Apply a 10-core filter (retain only users/items with ≥10 interactions).
+- **Splits**:
+  - Train: First 3 days
+  - Validation + Test: Subsequent 2 days
+
+### 2. **Global Residual Value (GRV) Module**
+
+- Define observation (`T_obs`) and prediction (`T_pred`) windows.
+- Collect user feedback (e.g., CTR, watch ratio) in the observation window.
+- Train a Cox survival model to estimate item “time-to-death.”
+- Output: GRV vector (survival probabilities) for each item across future hours.
+
+### 3. **Generate Recommendation Datasets**
+
+- Incorporate GRV predictions into item metadata.
+- Produce training files for each backbone model, with and without GRV features.
+
+### 4. **Backbone Recommendation Models**
+
+- Models: NeuMF, GRU4Rec, TiSASRec (or other algorithms).
+
+- Train both baseline (no GRV) and GRV-enhanced models:
+
+\[
+s\text{core}(u, i) = (1 - \gamma) \times \text{backbone\_score}(u, i) + \gamma \times \text{GRV}_i
+\]
+
+### 5. **Experimental Settings**
+
+- **Hyperparameters**:
+  - `T_obs = 12` hours (MIND)
+  - `T_pred = 7` days
+  - \(\gamma \in [0, 0.5]\) for weighting
+
+- **Metrics**: HR@K, NDCG@K, Cov@K, N_Cov@K
+
+### 6. **Comparison and Analysis**
+
+- **Accuracy**: Check HR@K and NDCG@K stability or improvement with GRV.
+- **Fairness**: Evaluate changes in item coverage, focusing on newer items.
 
 ---
-
-## 6. Comparison and Analysis
-
-### Accuracy:
-- Ensure GRV does not degrade standard recommendation metrics (**HR@K**, **NDCG@K**).
-- Check for consistent or improved performance.
-
-### Fairness:
-- Evaluate improvements in **new item exposure** (N_Cov@K) and **overall item coverage** (Cov@K).
-- Analyze exposure distribution across items grouped by upload time.
-
 
 ## Reference
-```
+
+```bibtex
 @inproceedings{DBLP:conf/SIGIR/WangMJZYLJ23,
   author    = {Jiayin Wang and
                Weizhi Ma and
@@ -144,4 +141,6 @@ Currently under constructions.
 }
 ```
 
-For inquiries, contact Jiayin Wang (JiayinWangTHU AT gmail.com).
+> **Contact:** For questions, please reach out to Jiayin Wang (JiayinWangTHU at gmail dot com).
+
+> **Disclaimer:** This repository is a work in progress. It implements core concepts from the paper but may not exactly match every experimental detail from the SIGIR publication.

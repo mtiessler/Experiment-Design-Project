@@ -1,18 +1,3 @@
-key,value
-path,../../data/MIND_large/preprocessed
-dataset,
-train_file,train.csv
-val_file,val.csv
-test_file,test.csv
-play_rate,1
-pctr,1
-start_time,24
-gpu,0
-random_seed,1234
-log_file,./logs/cox_model.log
-verbose,20
-load,0
-train,1
-analysis,0
-model_name,COX
-item_hour_log_file,itemHourLog.csv
+version https://git-lfs.github.com/spec/v1
+oid sha256:8c4f3c32aa23306aa46a23d88d3705f25bda8ccb13e883879ca667b1232d8270
+size 307
