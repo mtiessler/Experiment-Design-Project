@@ -43,7 +43,7 @@ Experiment-Design-Project/
 - **TaFR-reproducible/**: Integrated scripts for the full TaFR pipeline.
 - **data/**: Contains MIND data (train/val/test) and other data necessary for GRV original code.
 
-> **Note:** The final experiments used both the MIND and Kuai datasets, evaluated on HR@k, NDCG@k, and coverage metrics. 
+> **Note:** The final experiments used only the MIND dataset, evaluated on HR@k, NDCG@k, and coverage metrics. 
 ---
 
 ## 2. Additions to Improve Reproducibility
@@ -67,11 +67,10 @@ Experiment-Design-Project/
 - Added path references to data in ReChorus scripts.
 - Implemented chunk-based file processing to handle large `behaviors.tsv` data.
 - Early sampling of data during chunk processing to limit dataset size for faster development.
-- Lowered interaction frequency threshold (e.g., `MIN_INTERACTIONS=2`) to reduce dataset size.
 - Vectorized negative sampling for performance improvements.
 - Added progress tracking with `tqdm`.
 - Reduced the training timeline to fewer days for a smaller dataset.
-
+- Generated a custom preprocessing file from the original one, called `MIND-large.ipynb`
 ---
 
 ## 4. Step-by-Step Reproduction Procedure
