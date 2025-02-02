@@ -1,5 +1,5 @@
 key,value
-path,../../data/MIND/preprocessed
+path,../../data/MIND_large/preprocessed
 dataset,
 train_file,train.csv
 val_file,val.csv
@@ -15,3 +15,4 @@ load,0
 train,1
 analysis,0
 model_name,COX
+item_hour_log_file,itemHourLog.csv

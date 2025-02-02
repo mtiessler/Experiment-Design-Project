@@ -84,7 +84,7 @@ class COX:
 
         if hasattr(self.corpus, "df_test") and self.corpus.df_test is not None:
             self.corpus.df_test.reset_index(inplace=True)
-            self.prediction_results["photo_id"] = self.corpus.df_test["photo_id"]
+            self.prediction_results["item_id"] = self.corpus.df_test["item_id"]
         else:
             raise ValueError("df_test is not set in the coxDataLoader. Ensure it is initialized during preprocessing.")
 

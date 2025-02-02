@@ -1,8 +1,0 @@
-INFO:root:Loaded Configuration: {'gpu': '0', 'random_seed': '1234', 'log_file': '../log/COX/COX__example_dataset__1234.txt', 'verbose': '20', 'load': '0', 'train': '1', 'analysis': '0', 'model_name': 'COX', 'dataset': 'example_dataset', 'prediction_dataset': '', 'model_path': 'model/COX/COX__example_dataset__1234.pt', 'prediction_path': '../prediction/COX/COX__example_dataset__1234'}
-INFO:root:GPU available: False
-INFO:root:Loaded Configuration: {'gpu': '0', 'random_seed': '1234', 'log_file': '../log/COX/COX__example_dataset__1234.txt', 'verbose': '20', 'load': '0', 'train': '1', 'analysis': '0', 'model_name': 'COX', 'dataset': 'example_dataset', 'prediction_dataset': '', 'model_path': 'model/COX/COX__example_dataset__1234.pt', 'prediction_path': '../prediction/COX/COX__example_dataset__1234'}
-INFO:root:GPU available: False
-INFO:root:Loaded Configuration: {'gpu': '0', 'random_seed': '1234', 'log_file': '../log/COX/COX__example_dataset__1234.txt', 'verbose': '20', 'load': '0', 'train': '1', 'analysis': '0', 'model_name': 'COX', 'dataset': 'example_dataset', 'prediction_dataset': '', 'model_path': 'model/COX/COX__example_dataset__1234.pt', 'prediction_path': '../prediction/COX/COX__example_dataset__1234'}
-INFO:root:GPU available: False
-INFO:root:Loaded Configuration: {'gpu': '0', 'random_seed': '1234', 'log_file': '../log/COX/COX__example_dataset__1234.txt', 'verbose': '20', 'load': '0', 'train': '1', 'analysis': '0', 'model_name': 'COX', 'dataset': 'example_dataset', 'prediction_dataset': '', 'model_path': 'model/COX/COX__example_dataset__1234.pt', 'prediction_path': '../prediction/COX/COX__example_dataset__1234'}
-INFO:root:GPU available: False

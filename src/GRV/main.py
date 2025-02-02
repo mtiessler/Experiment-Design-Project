@@ -1,20 +1,15 @@
-# -*- coding: UTF-8 -*-
-
-import os
-import sys
 import logging
-import pandas as pd
 import numpy as np
 import torch
 
 from src.GRV.model.COX import COX
-from src.GRV.pre_process import Label
 from src.GRV.pre_process.coxDataLoader import coxDataLoader
-from utils import utils
-
-
 
 def load_config_from_csv(file_path):
+    """
+    Load configuration from a CSV file.
+    """
+    import pandas as pd
     try:
         config_df = pd.read_csv(file_path, dtype=str)
         config = {}
@@ -26,78 +21,53 @@ def load_config_from_csv(file_path):
     except Exception as e:
         raise ValueError(f"Error reading configuration file: {e}")
 
-
 def main(config_file):
-    try:
-        config = load_config_from_csv(config_file)
-    except ValueError as e:
-        print(f"Configuration error: {e}")
-        sys.exit(1)
+    """
+    Main function to execute the Cox model pipeline.
+    """
+    # Load configuration
+    config = load_config_from_csv(config_file)
 
-    # Logging configuration
-    log_args = [config['model_name'], config['dataset'], config['random_seed']]
-    exclude = ['check_epoch', 'log_file', 'model_path', 'path', 'pin_memory',
-               'regenerate', 'sep', 'verbose', 'metric', 'test_epoch', 'buffer',
-               'model_name', 'dataset', 'random_seed', 'prediction_path', 'gpu',
-               'label_path', 'load', 'train', 'analysis', 'prepareLabel', 'prediction_dataset']
+    # Ensure necessary paths in config
+    config.setdefault("model_path", "model/cox_model.pt")
+    config.setdefault("prediction_path", "predictions/cox")
 
-    keys = [k for k in config.keys() if k not in exclude]
-    for key in keys:
-        log_args.append(key + '=' + str(config[key]))
+    # Logging setup
+    log_file = config.get("log_file", "cox_log.txt")
+    logging.basicConfig(filename=log_file, level=logging.INFO)
+    logging.info("Configuration loaded successfully.")
 
-    log_file_name = '__'.join(log_args).replace(' ', '__')
-    if not config.get('log_file'):
-        config['log_file'] = f'../log/{config["model_name"]}/{log_file_name}.txt'
-    if not config.get('model_path'):
-        if config['model_name'] == 'COX':
-            config['model_path'] = f'model/{config["model_name"]}/{log_file_name}.pt'
-        else:
-            config['model_path'] = f'model/{config["model_name"]}/{log_file_name}.h5'
-    if not config.get('prediction_path'):
-        config['prediction_path'] = f'../prediction/{config["model_name"]}/{log_file_name}'
-        if config.get('prediction_dataset'):
-            config['prediction_path'] = config['prediction_path'].replace(
-                config['dataset'], config['prediction_dataset'])
+    # Set random seeds for reproducibility
+    np.random.seed(int(config.get("random_seed", 42)))
+    torch.manual_seed(int(config.get("random_seed", 42)))
+    torch.cuda.manual_seed(int(config.get("random_seed", 42)))
 
-    utils.check_dir(config['log_file'])
-    logging.basicConfig(filename=config['log_file'], level=int(config['verbose']))
-    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
-    logging.info(f"Loaded Configuration: {config}")
-
-    # Random seed
-    np.random.seed(int(config['random_seed']))
-    torch.manual_seed(int(config['random_seed']))
-    torch.cuda.manual_seed(int(config['random_seed']))
-    torch.backends.cudnn.deterministic = True
-
-    # GPU
-    os.environ["CUDA_VISIBLE_DEVICES"] = config['gpu']
-    logging.info('GPU available: {}'.format(torch.cuda.is_available()))
-
-    # Initialize components
+    # Load data and initialize the coxDataLoader
+    logging.info("Initializing coxDataLoader...")
     corpus = coxDataLoader(config)
+
+    # Initialize and train the Cox model
+    logging.info("Initializing COX model...")
     model = COX(config, corpus)
-    label = Label
-    corpus.preprocess(config)
 
-    logging.info(model)
-
-    # Define and train the model
+    # Define the model structure
+    logging.info("Defining the Cox model...")
     model.define_model(config)
-    if int(config['load']) > 0:
-        model.load_model()
-    if int(config['train']) > 0:
-        model.train()
+
+    # Train the model
+    logging.info("Training the Cox model...")
+    model.train()
+
+    # Predict survival functions
+    logging.info("Predicting survival probabilities...")
     model.predict()
-    if int(config['train']) > 0:
-        model.evaluate()
-    if int(config['analysis']) == 1:
-        model.analysis(label, config)
 
-    logging.info('-' * 45 + ' END: ' + utils.get_time() + ' ' + '-' * 45)
+    # Evaluate the model
+    logging.info("Evaluating the Cox model...")
+    model.evaluate()
 
+    logging.info("Cox model pipeline completed successfully.")
 
-if __name__ == '__main__':
-    # Specify the path to the configuration file
-    CONFIG_FILE = "config.csv"
+if __name__ == "__main__":
+    CONFIG_FILE = "config.csv"  # Specify the configuration file path
     main(CONFIG_FILE)
